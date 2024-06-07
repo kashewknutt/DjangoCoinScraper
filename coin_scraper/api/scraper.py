@@ -18,11 +18,11 @@ class CoinMarketCapScraper:
         
         try:
             driver.get(self.base_url)
-            self.data['price'] = self.get_text(driver, By.XPATH, "//div[@class='priceValue']")
-            self.data['price_change'] = self.get_text(driver, By.XPATH, "//span[contains(@class, 'sc-15yy2pl-0')]")
-            self.data['market_cap'] = self.get_text(driver, By.XPATH, "//div[@class='statsValue'][1]")
-            self.data['volume'] = self.get_text(driver, By.XPATH, "//div[@class='statsValue'][2]")
-            self.data['circulating_supply'] = self.get_text(driver, By.XPATH, "//div[@class='statsValue'][3]")
+            self.data['price'] = self.get_text(driver, By.XPATH, "//span[@class='sc-d1ede7e3-0 fsQm base-text']")
+            self.data['price_change'] = self.get_text(driver, By.XPATH, "//*[@id=\"section-coin-overview\"]/div[2]/div/div/p")
+            self.data['market_cap'] = self.get_text(driver, By.XPATH, "//*[@id=\"__next\"]/div[2]/div/div[1]/div/div[2]/section/div/section/div/div/div[2]/div/div[3]/div")
+            self.data['volume'] = self.get_text(driver, By.XPATH, "//*[@id=\"__next\"]/div[2]/div/div[1]/div/div[2]/section/div/section/div/div/div[2]/div/div[4]/div")
+            self.data['circulating_supply'] = self.get_text(driver, By.XPATH, "//*[@id=\"section-coin-stats\"]/div/dl/div[4]/div[1]/dd")
             self.data['contracts'] = self.get_contracts(driver)
             self.data['official_links'] = self.get_official_links(driver)
             self.data['socials'] = self.get_social_links(driver)
@@ -76,3 +76,9 @@ class CoinMarketCapScraper:
         except Exception as e:
             print(f"Error getting social links: {e}")
         return socials
+
+
+# Example usage:
+scraper = CoinMarketCapScraper("bitcoin")
+data = scraper.scrape()
+print(data)
