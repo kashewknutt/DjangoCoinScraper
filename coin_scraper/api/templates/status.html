@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">Check Scraping Status</h2>
+    </div>
+    <div class="card-body">
+        <form id="statusForm" method="get" action="#">
+            <div class="form-group">
+                <label for="job_id">Enter Job ID:</label>
+                <input type="text" class="form-control" id="job_id" name="job_id" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Check Status</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.getElementById('statusForm').onsubmit = function(event) {
+        event.preventDefault();  // Prevent default form submission
+
+        // Get the job_id value from the input field
+        var jobId = document.getElementById('job_id').value.trim();
+
+        // Ensure the jobId is not empty
+        if (jobId) {
+            // Construct the URL manually with the job_id as a path parameter
+            var actionUrl = '/api/taskmanager/scraping_status/' + jobId + '/';
+
+            // Redirect to the new URL
+            window.location.href = actionUrl;
+        } else {
+            alert("Please enter a Job ID.");
+        }
+    };
+</script>
+{% endblock %}

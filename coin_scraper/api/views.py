@@ -1,44 +1,41 @@
+import logging
 from django.shortcuts import render
-from django.views import View
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status 
+from .tasks import scrape_coin_data  
 from celery.result import AsyncResult
-from .tasks import scrape_coin_data
+
+logger = logging.getLogger(__name__)
 
 class StartScrapingView(APIView):
-    def get(self, request):
-        return render(request, 'scraper.html')
-    
     def post(self, request):
+        logger.debug(f"Received request data: {request.data}")
         coins = request.data.get('coins', [])
         if not coins:
-            return Response({'error': 'No coins provided'}, status=status.HTTP_400_BAD_REQUEST)
-
-        task_ids = []
-        for coin in coins:
-            task = scrape_coin_data.delay(coin)
-            task_ids.append(task.id)
-
-        return Response({'task_ids': task_ids}, status=status.HTTP_200_OK)
+            logger.debug("No coins provided in request data.")
+            return Response({'error': 'No coins provided.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        task = scrape_coin_data.delay(coins)  # Start the Celery task
+        logger.debug(f"Started scraping task with ID: {task.id}")
+        return Response({'job_id': task.id}, status=status.HTTP_202_ACCEPTED)
 
 class ScrapingStatusView(APIView):
     def get(self, request, job_id):
-        result = AsyncResult(job_id)
-        if result.state == 'PENDING':
-            response = {'status': 'Pending...'}
-        elif result.state != 'FAILURE':
-            response = {
-                'status': result.state,
-                'result': result.result
-            }
+        logger.debug(f"Checking status for job ID: {job_id}")
+        task = AsyncResult(job_id)
+        if task.state == 'SUCCESS':
+            return Response(task.result, status=status.HTTP_200_OK)
         else:
-            response = {
-                'status': 'Failed',
-                'result': str(result.info),
-            }
-        return Response(response, status=status.HTTP_200_OK)
-    
-class ScraperPageView(View):
-    def get(self, request):
-        return render(request, 'scraper.html')
+            return Response({'status': task.state}, status=status.HTTP_200_OK)
+
+# Function views for rendering templates
+
+def home_view(request):
+    return render(request, 'home.html')
+
+def scraper_view(request):
+    return render(request, 'scraper.html')
+
+def status_view(request):
+    return render(request, 'status.html')

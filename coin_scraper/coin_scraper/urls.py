@@ -14,14 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# coin_scraper/urls.py
+
 from django.contrib import admin
 from django.urls import include, path
-
-from api.views import ScraperPageView
+from api.views import home_view, scraper_view, status_view, ScrapingStatusView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
-    path('scraper/', ScraperPageView.as_view(), name='scraper'),
-    path('', include('api.urls')),
+    path('api/', include('api.urls')),  # Include API routes under /api/
+    path('', home_view, name='home'),  # Root URL directs to home view
+    path('scraper/', scraper_view, name='scraper'),  # Scraper page URL
+    path('status/', status_view, name='status'),  # Status page URL
+    path('api/taskmanager/scraping_status/', ScrapingStatusView.as_view(), name='scraping_status'),
 ]
