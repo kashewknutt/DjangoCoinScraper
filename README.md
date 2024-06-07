@@ -19,7 +19,7 @@ Follow these steps to set up and use the DjangoCoinScraper project:
 1. **Clone the repository to your local machine**:
 
     ```bash
-    git clone https://github.com/yourusername/DjangoCoinScraper.git
+    git clone https://github.com/kashewknutt/DjangoCoinScraper.git
     cd DjangoCoinScraper
     ```
 
