@@ -1,5 +1,5 @@
 from celery import shared_task
-from scraper import CoinMarketCapScraper
+from .scraper import CoinMarketCapScraper
 
 @shared_task
 def scrape_coin_data(coins):
