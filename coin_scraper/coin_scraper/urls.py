@@ -26,5 +26,5 @@ urlpatterns = [
     path('', home_view, name='home'),  # Root URL directs to home view
     path('scraper/', scraper_view, name='scraper'),  # Scraper page URL
     path('status/', status_view, name='status'),  # Status page URL
-    path('api/taskmanager/scraping_status/', ScrapingStatusView.as_view(), name='scraping_status'),
+    path('api/taskmanager/scraping_status/<job_id>/', ScrapingStatusView.as_view(), name='scraping_status'),
 ]
