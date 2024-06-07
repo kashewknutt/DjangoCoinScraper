@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Scrape Cryptocurrency Data</h2>
+<form id="scrapeForm" method="post">
+    <div class="form-group">
+        <label for="coins">Enter Cryptocurrency Symbols (comma separated):</label>
+        <input type="text" class="form-control" id="coins" placeholder="e.g., bitcoin, ethereum" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Start Scraping</button>
+</form>
+
+<div id="result" class="mt-4"></div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#scrapeForm').submit(function(event) {
+            event.preventDefault();
+            const coins = $('#coins').val().split(',').map(coin => coin.trim());
+            $.ajax({
+                type: 'POST',
+                url: '{% url "start_scraping" %}',
+                data: JSON.stringify({ coins: coins }),
+                contentType: 'application/json',
+                success: function(response) {
+                    $('#result').html('<p>Scraping tasks started. Task IDs: ' + response.task_ids.join(', ') + '</p>');
+                    response.task_ids.forEach(task_id => {
+                        checkStatus(task_id);
+                    });
+                }
+            });
+        });
+
+        function checkStatus(task_id) {
+            $.get('{% url "scraping_status" "TASK_ID" %}'.replace('TASK_ID', task_id), function(response) {
+                if (response.status === 'SUCCESS') {
+                    $('#result').append('<p>Task ' + task_id + ': ' + JSON.stringify(response.result) + '</p>');
+                } else if (response.status === 'FAILURE') {
+                    $('#result').append('<p>Task ' + task_id + ' failed: ' + response.error + '</p>');
+                } else {
+                    setTimeout(function() {
+                        checkStatus(task_id);
+                    }, 2000);
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

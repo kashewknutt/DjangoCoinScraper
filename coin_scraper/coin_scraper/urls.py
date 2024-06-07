@@ -17,7 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from api.views import ScraperPageView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    path('scraper/', ScraperPageView.as_view(), name='scraper'),
+    path('', include('api.urls')),
 ]
