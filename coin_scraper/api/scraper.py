@@ -79,6 +79,6 @@ class CoinMarketCapScraper:
 
 
 # Example usage:
-scraper = CoinMarketCapScraper("bitcoin")
-data = scraper.scrape()
-print(data)
+#scraper = CoinMarketCapScraper("bitcoin")
+#data = scraper.scrape()
+#print(data)
