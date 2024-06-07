@@ -19,7 +19,7 @@ Follow these steps to set up and use the DjangoCoinScraper project:
 1. **Clone the repository to your local machine**:
 
     ```bash
-    git clone https://github.com/yourusername/DjangoCoinScraper.git
+    git clone https://github.com/kashewknutt/DjangoCoinScraper.git
     cd DjangoCoinScraper
     ```
 
@@ -134,6 +134,7 @@ You can also use APIs to start scraping and check the status of tasks.
     - **tasks.py**: Celery tasks for scraping data
     - **views.py**: Views for API endpoints and web pages
   - **templates/**: HTML templates for the web interface
+    - `base.html`: Template for the base page
     - `scraper.html`: Template for the scraping page
     - `status.html`: Template for the status page
   - **static/**: Static files like CSS and JavaScript
