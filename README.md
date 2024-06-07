@@ -1,4 +1,4 @@
-DjangoCoinScraper
+**DjangoCoinScraper**
 
 #Introduction
 
