@@ -1,17 +1,27 @@
 from celery import shared_task
-import logging
 from .scraper import CoinMarketCapScraper
-
-logger = logging.getLogger(__name__)
 
 @shared_task
 def scrape_coin_data(coins):
     results = []
-    for coin in coins:
+    total_coins = len(coins)
+    
+    print(f"Scraping data for {total_coins} coins...:")
+    print(coins)
+    
+    for index, coin in enumerate(coins, start=1):
+        print(f"Scraping data for coin {index}/{total_coins}: {coin}")
+        
         scraper = CoinMarketCapScraper(coin)
         coin_data = scraper.scrape()
+        
         results.append({
             'coin': coin,
             'output': coin_data
         })
+        
+        print(f"Data scraped successfully for coin {index}/{total_coins}: {coin}")
+    
+    print("Data scraping completed for all coins.")
+    
     return results
