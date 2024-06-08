@@ -147,3 +147,16 @@ You can also use APIs to start scraping and check the status of tasks.
 - Ensure Redis is running before starting Celery.
 - Update the `settings.py` to configure your database and other settings as needed.
 - Use the provided web interface for easy scraping and status checking or interact directly with the APIs for more flexibility.
+
+
+
+##Snips:
+
+![image](https://github.com/kashewknutt/DjangoCoinScraper/assets/141485474/227bf083-edfa-4cec-a9f5-99009bb35c30)
+
+![image](https://github.com/kashewknutt/DjangoCoinScraper/assets/141485474/472208ad-1040-43a3-a4e1-0f86dc4df4d1)
+
+![image](https://github.com/kashewknutt/DjangoCoinScraper/assets/141485474/07826894-6568-4670-b56d-6ca49bfbd96a)
+
+![image](https://github.com/kashewknutt/DjangoCoinScraper/assets/141485474/5c4e8b19-825c-441b-9026-cfe88c38a6a2)
+
