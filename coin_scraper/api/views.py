@@ -19,7 +19,7 @@ class StartScrapingView(APIView):
         #for task in tasks:
         #    print(task)
         #    returnedcoins += task
-        print(f"Started scraping tasks with IDs: {returnedcoins}")
+        print(f"Started scraping tasks with IDs: {tasks}")
         return Response({'coins': tasks}, status=status.HTTP_202_ACCEPTED)
 
 class ScrapingStatusView(APIView):
