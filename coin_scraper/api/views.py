@@ -1,25 +1,26 @@
-import logging
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .tasks import scrape_coin_data  # Assuming your task is defined here
+from .tasks import scrape_coin_data
 from celery.result import AsyncResult
-
-logger = logging.getLogger(__name__)
 
 class StartScrapingView(APIView):
     def post(self, request):
-        logger.debug(f"Received request data: {request.data}")
+        print(f"Received request data: {request.data}")
         coins = request.data.get('coins', [])
         if not coins:
-            logger.debug("No coins provided in request data.")
+            print("No coins provided in request data.")
             return Response({'error': 'No coins provided.'}, status=status.HTTP_400_BAD_REQUEST)
         
-        task = scrape_coin_data.delay(coins)  # Start the Celery task
-        logger.debug(f"Started scraping task with ID: {task.id}")
-        return Response({'job_id': task.id}, status=status.HTTP_202_ACCEPTED)
-
+        tasks = scrape_coin_data(coins)
+        print(tasks)
+        #returnedcoins = [task.coin for task in tasks]
+        #for task in tasks:
+        #    print(task)
+        #    returnedcoins += task
+        print(f"Started scraping tasks with IDs: {returnedcoins}")
+        return Response({'coins': tasks}, status=status.HTTP_202_ACCEPTED)
 
 class ScrapingStatusView(APIView):
     def get(self, request, job_id):

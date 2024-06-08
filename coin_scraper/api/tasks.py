@@ -1,5 +1,5 @@
 from celery import shared_task
-from .scraper import CoinMarketCapScraper
+from api.scraper import CoinMarketCapScraper
 
 @shared_task
 def scrape_coin_data(coins):
@@ -15,8 +15,6 @@ def scrape_coin_data(coins):
         scraper = CoinMarketCapScraper(coin)
         coin_data = scraper.scrape()
         
-        print(coin_data)
-
         results.append({
             'coin': coin,
             'output': coin_data
@@ -25,7 +23,5 @@ def scrape_coin_data(coins):
         print(f"Data scraped successfully for coin {index}/{total_coins}: {coin}")
     
     print("Data scraping completed for all coins.")
-    
+    print(results)
     return results
-
-#scrape_coin_data({"bitcoin"})

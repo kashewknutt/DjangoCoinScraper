@@ -14,6 +14,8 @@ class CoinMarketCapScraper:
         print(f"Scraping data for {self.coin}...")
         options = Options()
         options.headless = True
+
+        options.binary_location = "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe"
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
         
         try:
