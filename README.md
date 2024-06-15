@@ -56,6 +56,7 @@ Follow these steps to set up and use the DjangoCoinScraper project:
 2. **Run Django migrations to create the database schema**:
 
     ```bash
+    python manage.py makemigrations
     python manage.py migrate
     ```
 
